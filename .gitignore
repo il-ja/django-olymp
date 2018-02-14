@@ -1,0 +1,7 @@
+/venv/
+/static/
+/media/
+/local/
+*.sqlite3
+*.pyc
+*~
