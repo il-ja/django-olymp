@@ -1,0 +1,278 @@
+/* Allgemeine Regeln */
+a {
+    text-decoration: none;
+    color: inherit;
+    font-family: "Futura Book", "Segoe UI", Arial, sans-serif;
+    font-weight: 500;
+    text-align: center;
+}
+
+a:hover {
+    font-style: italic;
+}
+
+li {
+    list-display: none;
+}
+
+body {
+    font-family: Garamond, Verdana, sans-serif;
+    line-height: 1.2;
+    font-size: 120%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Futura Book", "Segoe UI", Arial, sans-serif;
+    font-weight: 400;
+}
+
+/* Das große Layout der Seite */
+
+
+body > div {
+    margin: 12px 4px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 4px 0px rgb(222, 222, 222);
+
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+}
+
+body > div > header {
+    flex: 100%;
+    border-radius: 3px 3px 0 0;
+}
+
+nav {
+    flex: 1 1 10em;
+    margin: 1em 0;
+}
+
+main {
+    flex: 5 75%;
+    margin: 1em 0.4em;
+    padding: 1em 0;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0px 4px 6px 0px rgb(111, 111, 111);
+}
+
+
+/* Kopfzeile: Anmeldung, Profil, etc */
+
+body > div > header {
+    position: relative;
+    height: 5em;
+    padding: 0;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-flow: column wrap-reverse;
+    flex-flow: column wrap-reverse;
+    -webkit-align-content: flex-start; 
+    align-content: flex-start;
+    -webkit-justify-content: flex-end; 
+    justify-content: flex-end;
+}
+
+body > div > header > h1 {
+    position: absolute;
+    left: 1em;
+    top: 0;
+}
+
+body > div > header > a {
+    padding: 0.45em;
+    margin: 0 0.3em 0.3em 0.3em;
+    width: 10%;
+    border-radius: 3px;
+    box-shadow: 0 0.2em 0.3em 0 rgb(111, 111, 111);
+}
+
+
+/* Navigation */
+
+nav {
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+}
+
+nav > a {
+    padding: 0.4em 8%;
+    margin: 0 0.6em 0.3em 1em;
+    border-radius: 3px;
+    box-shadow: 0px 0.2em 0.3em 0px rgb(111, 111, 111);
+}
+
+
+/* Hauptteil Layout */
+
+article {
+    margin: 1.5em 4em;
+    position: relative;
+}
+
+/* Für die automatischen django-Formulare */
+
+ul.errorlist li {
+    color: red;
+    margin: 1ex;
+}
+
+/* Notizzettel Zeilen */
+
+div.notizzettel {
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-flow: column;
+    flex-flow: column;
+}
+
+div.notizzettel > div {
+    flex: 4ex;
+    margin-top: 1ex;
+    border-radius: 3px;
+}
+
+div.notizzettel > div > div:first-child {
+    font-size: 70%;
+    text-align: right;
+    padding: 0.4ex 2ex 0.3ex;
+    border-radius: 3px 3px 0 0;
+}
+
+div.notizzettel > div > div:nth-child(2) {
+    font-size: 110%;
+    padding: 0.5ex 1ex 0.2ex;
+    border-radius: 0 0 3px 3px;
+}
+
+form.notizzettel_formular {
+    flex: 1 1 6em;
+    height: 3em;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-align-items: center;
+    align-items: center;
+    margin-bottom: 2ex;
+}
+
+form.notizzettel_formular > div {
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    height: 3ex;
+    margin: 0.5ex;
+}
+
+form.notizzettel_formular > div:first-child {
+    flex: 1 20ex;
+}
+
+form.notizzettel_formular > div:first-child > input {
+    width: 12ex;
+    margin-left: 1ex;
+}
+
+form.notizzettel_formular > div:nth-child(2) {
+    flex: 8 40ex;
+    width: 50ex;
+}
+
+form.notizzettel_formular > div:nth-child(2) > input {
+    flex: 5 35ex;
+    margin-left: 1ex;
+}
+
+form.notizzettel_formular > input {
+    flex: 1 110px;
+    height: 5ex;
+    margin: 1ex;
+    box-shadow: -1px 2px 3px 0px rgb(111, 111, 111);
+    background-color: blue;
+}
+
+
+/* Einbinden der Schriften */
+
+@font-face {
+	font-family: 'Garamond';
+	src: url('font/garamond_regular.otf') format('opentype');
+	}
+
+@font-face {
+	font-family: 'Garamond';
+	src: url('font/garamond_italic.otf') format('opentype');
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Garamond';
+	src: url('font/garamond_bold.otf') format('opentype');
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Garamond';
+	src: url('font/garamond_semibold.otf') format('opentype');
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: 'Garamond';
+	src: url('font/garamond_italic.otf') format('opentype');
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Garamond';
+	src: url('font/garamond_bold-italic.otf') format('opentype');
+	font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Garamond';
+	src: url('font/garamond_semibold-italic.otf') format('opentype');
+	font-weight: 500;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Futura Book';
+	src: url('font/futura_regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'Futura Book';
+	src: url('font/futura_italic.ttf') format('truetype');
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Futura Book';
+	src: url('font/futura_bold.ttf') format('truetype');
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Futura Book';
+	src: url('font/futura_bold-italic.ttf') format('truetype');
+	font-style: italic;
+	font-weight: bold;
+}
