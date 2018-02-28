@@ -44,7 +44,7 @@ class MinimalModel(models.Model):
 
     def __str__(self):
         return '{model}, geändert {zeit}'.format(
-            model=self.__class__().__name__(),
+            model=self.__class__.__name__,
             zeit=str(self.zeit_geaendert),
         )
 
