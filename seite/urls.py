@@ -20,9 +20,11 @@ from django.conf.urls.static import static
 
 from django.views.generic import TemplateView
 
+slug_nutzer = settings.SLUG_NUTZER
 urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^' + slug_nutzer, include('userena.urls')),
     url(r'^olymp/', include('Wettbewerbe.urls')),
     url(r'^$',
         TemplateView.as_view(template_name='Grundgeruest/startseite.html'),

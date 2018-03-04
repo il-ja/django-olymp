@@ -44,6 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
     'django_extensions',
     'django.contrib.humanize',
+    'userena',
+    'guardian',
+    'easy_thumbnails',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -108,6 +112,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# von userena verlangt:
+AUTHENTICATION_BACKENDS = (
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+SLUG_NUTZER = 'nutzer/'
+SLUG_ANMELDEN = 'anmelden/'
+SLUG_ABMELDEN = 'abmelden/'
+ANONYMOUS_USER_ID = -1
+AUTH_PROFILE_MODULE = 'Grundgeruest.Profil'
+USERENA_SIGNIN_REDIRECT_URL = '/nutzer/%(username)s/'
+LOGIN_URL = '/' + SLUG_NUTZER + SLUG_ANMELDEN
+LOGOUT_URL = '/' + SLUG_NUTZER + SLUG_ANMELDEN
+SITE_ID = 1
+
+# Email-Versand
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'iljasseite@gmail.com'
+EMAIL_HOST_PASSWORD = 'ad8F9hnv2Jjsk4Rg5ns'
+DEFAULT_TO_EMAILS = ['ilja1988@gmail.com']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

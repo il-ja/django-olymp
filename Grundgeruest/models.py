@@ -1,7 +1,6 @@
 
 # Zuerst zwei Grund-Models, von denen der Rest erbt:
 from django.db import models
-from django.conf import settings
 from django.template.defaultfilters import slugify
 
 class MinimalModel(models.Model):
@@ -15,8 +14,6 @@ class MinimalModel(models.Model):
         auto_now=True,
         editable=False,
     )
-    # TODO: vereinfachen bei upgrade auf django 1.11
-    AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
     nutzer_geaendert = models.TextField(
         editable=False,
         default='0',
@@ -81,6 +78,7 @@ class Grundklasse(MinimalModel):
 
 # Nutzer und Profile
 from django.contrib.auth.models import AbstractUser
+from userena.models import UserenaBaseProfile
 from django.urls import reverse
 import random, string
 
@@ -88,13 +86,17 @@ def knoepfe_kopf(user):
     """ gibt Knöpfe für Kopfleiste als Liste von Tupeln zurück """
     spam = ('spam', 'spam') 
     admin = ('/admin/', 'admin')
+    anmelden = (reverse('userena_signin'), 'Anmelden')
+    abmelden = (reverse('userena_signout'), 'Abmelden')
+    register = (reverse('userena_signup'), 'Registrieren')
+    profil = lambda nutzer: (reverse('userena_profile_edit', kwargs={'username':nutzer.username}), 'Profil')
     
     if user.username == 'admin':
         liste = [spam]        
     elif user.is_authenticated():
-        liste = []
+        liste = [abmelden, profil(user)]
     else:
-        liste = []
+        liste = [anmelden, register]
     if user.is_staff and user.get_all_permissions():
         liste.append(admin)
     
@@ -141,3 +143,20 @@ class Nutzer(AbstractUser, MinimalModel):
 
     def __str__(self):
         return 'Nutzer %s (%s)' % (self.username, self.email)
+
+
+class Profil(UserenaBaseProfile):
+    user = models.OneToOneField(
+        Nutzer,
+        unique=True,
+        verbose_name='Nutzer',
+        related_name='profil',
+    )
+
+    @property
+    def nutzer(self): # DB-Feld heißt user weil userena's sonst nicht versteht
+        return self.user
+
+    class Meta:
+        verbose_name_plural = 'Profile'
+        verbose_name = 'Nutzerprofil'

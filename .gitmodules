@@ -1,3 +1,6 @@
 [submodule "Wettbewerbe"]
 	path = Wettbewerbe
 	url = https://github.com/il-ja/app-wettbewerbe.git
+[submodule "django-userena"]
+	path = django-userena
+	url = git://github.com/il-ja/django-userena.git
