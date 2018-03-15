@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'Wettbewerbe',
     'Grundgeruest',
+    'Kommentare',
 
     'django.contrib.admindocs',
     'django_extensions',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'guardian',
     'easy_thumbnails',
     'django.contrib.sites',
+    'django_markdown',
 ]
 
 MIDDLEWARE = [
