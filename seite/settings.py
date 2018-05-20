@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'guardian',
     'easy_thumbnails',
     'django.contrib.sites',
+    'django_tables2',
 ]
 
 MIDDLEWARE = [
