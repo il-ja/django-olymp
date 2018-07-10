@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load django_markdown %}
 {% block content %}
 
 <h1> Startseite </h1>
@@ -7,5 +6,4 @@
 <a href="{% url 'Wettbewerbe:index' %}">Zu den Wettbewerben</a>
 <p>textus randomus, nix richtigus lateinus:</p>
 {% lorem 7 p %}
-{% include "Kommentare/kommentarliste.html" %}
 {% endblock %}

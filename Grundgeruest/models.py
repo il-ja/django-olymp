@@ -92,7 +92,7 @@ def knoepfe_kopf(user):
     profil = lambda nutzer: (reverse('userena_profile_edit', kwargs={'username':nutzer.username}), 'Profil')
     
     if user.username == 'admin':
-        liste = [spam]        
+        liste = [spam, abmelden, profil(user)]
     elif user.is_authenticated():
         liste = [abmelden, profil(user)]
     else:
