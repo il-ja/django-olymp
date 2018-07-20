@@ -8,4 +8,12 @@ urlpatterns = [
         views.NeuerKommentar.as_view(), 
         name='erstellen',
     ),
+    url(r'^editieren/(?P<pk>[\w-]+)/$',
+        views.KommentarEditieren.as_view(),
+        name='editieren',
+    ),
+    url(r'^loeschen/(?P<pk>[\w-]+)/$',
+        views.KommentarLoeschen.as_view(),
+        name='loeschen',
+    ),
 ]

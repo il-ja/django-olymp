@@ -1,3 +1,4 @@
+{% block zusatz_css %}
 <style>
   div.kommentarliste {
     border-radius: 4pt;
@@ -22,10 +23,11 @@
     flex-flow: row-reverse wrap;
   }
   div.text {
+    width: 200px;
     padding: 10px;
     flex-grow: 1;
   }
-  div.autor {
+  div.autor, div.rest {
     padding: 10px;
     flex-grow: 0;
     width: 100px;
@@ -43,10 +45,9 @@
     border-radius: 3pt;
     box-shadow: 1pt -1pt 2px 1px gray;
   }
-  div.rest {
-    padding: 10px;
-    width: 100px;
-    flex-grow: 0;
+  div.rest a {
+    padding-top: 3px;
+    color: grey;
   }
   div.rechts div.autor, div.links div.rest {
     border-radius: 0pt 6pt 6pt 0pt;
@@ -54,13 +55,32 @@
   div.links div.autor, div.rest {
     border-radius: 6pt 0pt 0pt 6pt;
   }
-</style>
+  div.knopf_erstellen {
+    border-radius: 6pt;
+    box-shadow: 4px -2px 4px 2px gray;
+    margin: 7px 9px 4px 4px;
+    display: flex;
+    display: -webkit-flex;
+  }
+  div.knopf_erstellen > a {
+    border-radius: 6pt;
+    padding: 1em;
+    flex: 100%;
+  }
 
-<div class="kommentarliste"> 
-  {% for kommentar in liste.kommentare.all %}
-    <div class="w3-theme-l4 kommentar {% cycle 'links' 'rechts' %}">
-    {% include "Kommentare/kommentar.html" with kommentar=kommentar %}
-    </div>
-  {% endfor %}
+</style>
+{% endblock zusatz_css %}
+
+{% load kommentartags %}
+
+<div class="kommentarliste">
+  {% kommentare liste request.user %}
+  {% if request.user.is_authenticated %}
+  <div class="knopf_erstellen">
+    <a class="w3-hover-theme" href="{% url 'Kommentare:erstellen' liste.pk %}">
+      Kommentar schreiben!
+    </a>
+  </div>
+  {% endif %}
 </div>
 

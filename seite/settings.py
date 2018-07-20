@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'guardian',
     'easy_thumbnails',
     'django.contrib.sites',
-    'django_markdown',
+    'martor',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +130,36 @@ USERENA_SIGNIN_REDIRECT_URL = '/nutzer/%(username)s/'
 LOGIN_URL = '/' + SLUG_NUTZER + SLUG_ANMELDEN
 LOGOUT_URL = '/' + SLUG_NUTZER + SLUG_ANMELDEN
 SITE_ID = 1
+
+# Für Markdown-support von Martor
+MARTOR_ENABLE_CONFIGS = {
+    'imgur': 'false',     # to enable/disable imgur/custom uploader.
+    'mention': 'false',  # to enable/disable mention
+    'jquery': 'true',    # to include/revoke jquery (require for admin default django)
+}
+MARTOR_ENABLE_LABEL = False # default
+MARTOR_IMGUR_CLIENT_ID = 'your-client-id'
+MARTOR_IMGUR_API_KEY   = 'your-api-key'
+MARTOR_MARKDOWN_SAFE_MODE = True # default
+MARTOR_MARKDOWNIFY_FUNCTION = 'martor.utils.markdownify' # default
+MARTOR_MARKDOWNIFY_URL = '/martor/markdownify/' # default
+MARTOR_MARKDOWN_EXTENSIONS = [
+#    'markdown.extensions.extra',
+#    'markdown.extensions.nl2br',
+#    'markdown.extensions.smarty',
+#    'markdown.extensions.fenced_code',
+
+    'martor.extensions.urlize',
+    'martor.extensions.del_ins', # ~~strikethrough~~ and ++underscores++
+#    'martor.extensions.mention', # require for mention
+    'martor.extensions.emoji',   # require for emoji
+]
+MARTOR_MARKDOWN_EXTENSION_CONFIGS = {}
+MARTOR_UPLOAD_URL = '/martor/uploader/' # default
+MARTOR_SEARCH_USERS_URL = '/martor/search-user/' # default
+MARTOR_MARKDOWN_BASE_EMOJI_URL = 'https://assets-cdn.github.com/images/icons/emoji/' # default
+MARTOR_MARKDOWN_BASE_MENTION_URL = 'https://python.web.id/author/' # default (change this)
+
 
 # Email-Versand
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

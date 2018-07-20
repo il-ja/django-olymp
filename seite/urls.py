@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^' + slug_nutzer, include('userena.urls')),
     url(r'^olymp/', include('Wettbewerbe.urls')),
-    url(r'^markdown/', include('django_markdown.urls')),
+    url(r'^martor/', include('martor.urls')),
     url(r'^kommentare/', include('Kommentare.urls')),
     url(r'^$',
         grundgeruest.IndexView.as_view(

@@ -1,8 +1,0 @@
-{% load django_markdown %}
-  <div class="autor w3-theme-l3">
-    <img src="{{ kommentar.autor.get_mugshot_url }}" />
-    {{ kommentar.autor.user.username }}
-  </div> 
-  <div class="text">{{ kommentar.text | markdown_safe }}</div>
-  <div class="rest w3-theme-l3"></div>
-

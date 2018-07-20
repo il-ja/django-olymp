@@ -1,6 +1,6 @@
 from django.db import models
 from Grundgeruest.models import Grundklasse, MinimalModel
-from django_markdown.models import MarkdownField
+from martor.models import MartorField
 from django.conf import settings
 from django.db.models.base import ModelBase
 
@@ -45,7 +45,7 @@ class Kommentar(MinimalModel):
         on_delete=models.CASCADE,
         related_name='kommentare',
     )
-    text = MarkdownField()
+    text = MartorField()
     autor = models.ForeignKey(
         Profil,
         on_delete=models.CASCADE,
