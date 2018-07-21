@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-from django.views.generic import TemplateView
+from Grundgeruest import views as grundgeruest
 
 slug_nutzer = settings.SLUG_NUTZER
 urlpatterns = [
@@ -26,8 +26,12 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^' + slug_nutzer, include('userena.urls')),
     url(r'^olymp/', include('Wettbewerbe.urls')),
+    url(r'^martor/', include('martor.urls')),
+    url(r'^kommentare/', include('Kommentare.urls')),
     url(r'^$',
-        TemplateView.as_view(template_name='Grundgeruest/startseite.html'),
+        grundgeruest.IndexView.as_view(
+            template_name='Grundgeruest/startseite.html'
+        ),
         name='startseite',
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

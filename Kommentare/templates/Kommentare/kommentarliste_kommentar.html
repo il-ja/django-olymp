@@ -1,0 +1,22 @@
+{% load kommentartags martortags %}
+
+{% for kommentar, ob_editieren in kommentare %}
+  <div class="w3-theme-l4 kommentar links %}">
+    <div class="autor w3-theme-l3">
+      <img src="{{ kommentar.autor.get_mugshot_url }}" />
+      {{ kommentar.autor.user.username }}
+    </div> 
+    <div class="text">{{ kommentar.text | safe_markdown }}</div>
+    <div class="rest w3-theme-l3">
+      {% if ob_editieren %}
+      <a href="{% url 'Kommentare:loeschen' kommentar.pk %}">
+        löschen
+      </a>
+      <a href="{% url 'Kommentare:editieren' kommentar.pk %}">
+        editieren
+      </a>
+      {% endif %}
+    </div>
+  </div>
+{% endfor %}
+
