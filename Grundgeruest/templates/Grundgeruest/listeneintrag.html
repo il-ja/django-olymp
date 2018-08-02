@@ -1,0 +1,6 @@
+{% if not nur_link %}
+  <a href={{ objekt.get_absolute_url }}>{{ objekt.name }}</a>
+{% endif %}
+{% if ob_zeigen %}
+  <a href="{{ admin_link }}" style="color: gray">[admin]</a>
+{% endif %}
