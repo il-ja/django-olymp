@@ -1,4 +1,4 @@
-{% load static %}
+{% load static cookielaw_tags %}
 <!doctype html>
 <html>
   <head>
@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="{% static 'img/logo_mcd_gedreht.jpg' %}">
     <title>{% block title %}Iljas übelste Wettbewerbsseite{% endblock title %}</title>
   </head>
-  <body class="w3-theme-d4"><div class="w3-theme-l1">
+  <body class="w3-theme-d4">{% cookielaw_banner %}<div class="w3-theme-l1">
     {% include 'Grundgeruest/kopfzeile.html' %}
     {% include 'Grundgeruest/menueleiste.html' %}
     <main class="w3-theme-l4">

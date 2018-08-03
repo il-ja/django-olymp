@@ -1,0 +1,25 @@
+{% load i18n static %}
+
+<style>
+  #CookielawBanner {
+    padding: 0.5ex 9em 2ex 3em;
+    margin: 2em;
+  }
+  #CookielawBanner a {
+    position: absolute;
+    right: 5em;
+    color: yellow;
+    border-size: 1px;
+  }
+</style>
+
+<div id="CookielawBanner">
+        <h6>{% trans "COOKIE_INFO_HEADER" %}</h6>
+        <p>
+            <a style="" href="javascript:Cookielaw.createCookielawCookie();">{% trans "COOKIE_INFO_OK" %}</a>
+            {% trans "COOKIE_INFO_PARA" %}
+        </p>
+</div>
+
+<script type="text/javascript" src="{% static 'cookielaw/js/cookielaw.js' %}"></script>
+

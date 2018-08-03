@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_tables2',
     'martor',
+    'cookielaw',
 ]
 
 MIDDLEWARE = [
