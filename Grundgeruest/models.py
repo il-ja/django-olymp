@@ -152,7 +152,27 @@ class Profil(UserenaBaseProfile):
         verbose_name='Nutzer',
         related_name='profil',
     )
-
+    
+    farbschema_choices = [
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-amber.css', 'Zeus'),
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-blue.css', 'Poseidon'),
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-indigo.css', 'Hera'),
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-brown.css', 'Demeter'),
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-yellow.css', 'Apollo'),
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-light-green.css', 'Artemis'),
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-dark-grey.css', 'Athene'),
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-red.css', 'Ares'),
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-pink.css', 'Aphrodite'),
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-grey.css', 'Hermes'),
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-orange.css', 'Hephaistos'),
+        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-cyan.css', 'Dionysus')
+    ]
+    
+    farbschema = models.CharField(
+	max_length=255,
+	choices=farbschema_choices,
+	default='https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-dark-grey.css')
+    
     @property
     def nutzer(self): # DB-Feld heißt user weil userena's sonst nicht versteht
         return self.user
