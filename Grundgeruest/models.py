@@ -91,9 +91,7 @@ def knoepfe_kopf(user):
     register = (reverse('userena_signup'), 'Registrieren')
     profil = lambda nutzer: (reverse('userena_profile_edit', kwargs={'username':nutzer.username}), 'Profil')
     
-    if user.username == 'admin':
-        liste = [spam, abmelden, profil(user)]
-    elif user.is_authenticated():
+    if user.is_authenticated():
         liste = [abmelden, profil(user)]
     else:
         liste = [anmelden, register]
@@ -106,15 +104,17 @@ def knoepfe_menü(user):
     """ gibt Knöpfe für Menüleiste als Liste von Tupeln zurück """
     alle = {
         'index': ('/', 'Startseite'), 
-        'db': ('https://olymp.piokg.de/static/db.pdf', 'Datenbanklayout'), # quick and very dirty :)
+        'db': ('/static/Grundgeruest/db_olymp.pdf', 'Datenbanklayout'), # quick and very dirty :)
         'todo': ('/todo/', 'ToDo-Liste'),
         'olymp': ('/olymp/', 'Wettbewerbe'),
+        'impressum': ('/impressum/', 'Impressum'),
+        'randomus': ('/linkus-randomus/', 'linkus randomus'),
     }
     
     if user.username == 'admin':
         return [alle[name] for name in ('olymp', 'index', 'todo', 'db')]
     else:
-        return [alle[name] for name in ('olymp', 'index', 'db')]
+        return [alle[name] for name in ('olymp', 'db', 'impressum', 'randomus')]
         
 
 class Nutzer(AbstractUser, MinimalModel):
