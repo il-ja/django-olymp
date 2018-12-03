@@ -52,7 +52,7 @@ class RedirectMixin:
 class CreateUserView(AnonymousRequiredMixin, CreateView):
     form_class = UserForm
     template_name = 'Nutzer/registrieren.html'
-    success_url = reverse_lazy('Nutzer:signup_complete')
+    success_url = reverse_lazy('Nutzer:mail_wurde_versandt')
     authenticated_redirect_url = reverse_lazy('Nutzer:profil')
 
 

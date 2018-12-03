@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% lorem 1 p %}
+  {% include 'Grundgeruest/separator.html' with text="Sie haben sich erfolgreich abgemeldet!" %}
+  {% lorem 2 p random %}
+{% endblock %}

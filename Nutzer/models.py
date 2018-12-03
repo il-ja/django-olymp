@@ -14,9 +14,9 @@ def knoepfe_kopf(user):
     """ gibt Knöpfe für Kopfleiste als Liste von Tupeln zurück """
     spam = ('spam', 'spam') 
     admin = ('/admin/', 'admin')
-    anmelden = (reverse('Nutzer:anmelden'), 'Anmelden')
-    abmelden = (reverse('Nutzer:abmelden'), 'Abmelden')
-    register = (reverse('Nutzer:registrieren'), 'Registrieren')
+    anmelden = (reverse('auth:anmelden'), 'Anmelden')
+    abmelden = (reverse('auth:abmelden'), 'Abmelden')
+    register = (reverse('auth:registrieren'), 'Registrieren')
     profil = lambda nutzer: (reverse('userena_profile_edit', kwargs={'username':nutzer.username}), 'Profil')
     
     if user.is_authenticated:
@@ -101,24 +101,24 @@ class Nutzerprofil(TimeStampedModel):
     stadt = models.CharField(max_length=99)
     
     farbschema_choices = [
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-amber.css', 'Zeus'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-blue.css', 'Poseidon'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-indigo.css', 'Hera'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-brown.css', 'Demeter'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-yellow.css', 'Apollo'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-light-green.css', 'Artemis'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-dark-grey.css', 'Athene'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-red.css', 'Ares'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-pink.css', 'Aphrodite'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-grey.css', 'Hermes'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-orange.css', 'Hephaistos'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-cyan.css', 'Dionysus')
+        ('/static/Grundgeruest/css/w3-theme-amber.css', 'Zeus'),
+        ('/static/Grundgeruest/css/w3-theme-blue.css', 'Poseidon'),
+        ('/static/Grundgeruest/css/w3-theme-indigo.css', 'Hera'),
+        ('/static/Grundgeruest/css/w3-theme-brown.css', 'Demeter'),
+        ('/static/Grundgeruest/css/w3-theme-yellow.css', 'Apollo'),
+        ('/static/Grundgeruest/css/w3-theme-light-green.css', 'Artemis'),
+        ('/static/Grundgeruest/css/w3-theme-dark-grey.css', 'Athene'),
+        ('/static/Grundgeruest/css/w3-theme-red.css', 'Ares'),
+        ('/static/Grundgeruest/css/w3-theme-pink.css', 'Aphrodite'),
+        ('/static/Grundgeruest/css/w3-theme-grey.css', 'Hermes'),
+        ('/static/Grundgeruest/css/w3-theme-orange.css', 'Hephaistos'),
+        ('/static/Grundgeruest/css/w3-theme-cyan.css', 'Dionysus')
     ]
-    
+
     farbschema = models.CharField(
 	max_length=255,
 	choices=farbschema_choices,
-	default='https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-dark-grey.css')
+	default='/static/Grundgeruest/css/w3-theme-dark-grey.css')
 
     class Meta:
         verbose_name_plural = 'Profile'
