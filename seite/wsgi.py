@@ -11,6 +11,9 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "seite.settings")
+if os.path.isfile("./seite/local_settings.py"):
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "seite.local_settings")
+else:
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "seite.settings")
 
 application = get_wsgi_application()
