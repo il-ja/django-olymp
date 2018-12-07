@@ -1,12 +1,11 @@
 from django.db import models
-from Grundgeruest.models import Grundklasse, MinimalModel
+from django_extensions.db.models import TimeStampedModel
+from Grundgeruest.models import Grundklasse
 from martor.models import MartorField
-from django.conf import settings
 from django.db.models.base import ModelBase
+from django.contrib.auth import get_user_model
 
-Profil = settings.AUTH_PROFILE_MODULE
-
-class Liste(MinimalModel):
+class Liste(TimeStampedModel):
 
     models_mit_kommentaren = []
 
@@ -39,7 +38,7 @@ class Liste(MinimalModel):
         verbose_name_plural = 'Kommentarlisten'
 
 
-class Kommentar(MinimalModel):
+class Kommentar(TimeStampedModel):
     liste = models.ForeignKey(
         Liste,
         on_delete=models.CASCADE,
@@ -47,7 +46,7 @@ class Kommentar(MinimalModel):
     )
     text = MartorField()
     autor = models.ForeignKey(
-        Profil,
+        get_user_model(),
         on_delete=models.CASCADE,
         null=True,
         related_name='kommentare',

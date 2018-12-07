@@ -1,54 +1,17 @@
-
-# Zuerst zwei Grund-Models, von denen der Rest erbt:
-from django.db import models
+from django_extensions.db.models import TimeStampedModel, TitleSlugDescriptionModel
+from django.db import models 
 from django.template.defaultfilters import slugify
 
-class MinimalModel(models.Model):
-    """ Gemeinsame Attribute, die alle Objekte haben sollen """
 
-    zeit_erstellt = models.DateTimeField(
-        auto_now_add=True,
-        editable=False,
-    )
-    zeit_geaendert = models.DateTimeField(
-        auto_now=True,
-        editable=False,
-    )
-    nutzer_geaendert = models.TextField(
-        editable=False,
-        default='0',
-    )
-    def save(self, **kwargs):
-        """ zusätzliche Metadaten setzen vor save
-
-        falls nutzer_geaendert explizit übergeben wurde, trage ihn ein, 
-        wenn nicht, trage null ein, falls es das nicht schon war
-        """
-        uebergeben = kwargs.get('nutzer_geaendert', False)
-        if uebergeben:
-            self.nutzer_geaendert += ', {}'.format(uebergeben)
-            del(kwargs['nutzer_geaendert'])
-        else:
-            letzter_nutzer = int(self.nutzer_geaendert.split(',')[-1])
-            if letzter_nutzer != 0:
-                self.nutzer_geaendert += ', 0'
-        
-        super().save(**kwargs)
-
-    class Meta:
-        abstract = True
-        ordering = ["-zeit_geaendert"]
-
-    def __str__(self):
-        return '{model}, geändert {zeit}'.format(
-            model=self.__class__.__name__,
-            zeit=str(self.zeit_geaendert),
+class Grundklasse(TimeStampedModel, TitleSlugDescriptionModel):
+    """ Klasse für Objekte, die detail-view haben können """
+    def get_absolute_url(self):
+        """ Sollte überschrieben werden, für den Notfall so: """
+        return '/{model}/{slug}/'.format(
+            model=self.__class__.__name__.lower(),
+            slug=self.slug,
         )
 
-
-class Grundklasse(MinimalModel):
-    """ Klasse für Objekte, die detail-view haben können """
-    name = models.CharField(max_length=99)
     slug = models.SlugField(
         max_length=99,
         null=False,
@@ -58,125 +21,11 @@ class Grundklasse(MinimalModel):
     def save(self, **kwargs):
         """ Falls nicht gesetzt, slug autoausfüllen """
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.title)
         super().save(**kwargs)
 
-    class Meta:
-        abstract = True
-        ordering = ["name"]
-
-    def get_absolute_url(self):
-        """ Sollte überschrieben werden, für den Notfall so: """
-        return '/{model}/{slug}/'.format(
-            model=self.__class__.__name__.lower(),
-            slug=self.slug,
-        )
-
     def __str__(self):
-        return str(self.name)
-
-
-# Nutzer und Profile
-from django.contrib.auth.models import AbstractUser
-from userena.models import UserenaBaseProfile
-from django.urls import reverse
-import random, string
-
-def knoepfe_kopf(user):
-    """ gibt Knöpfe für Kopfleiste als Liste von Tupeln zurück """
-    spam = ('spam', 'spam') 
-    admin = ('/admin/', 'admin')
-    anmelden = (reverse('userena_signin'), 'Anmelden')
-    abmelden = (reverse('userena_signout'), 'Abmelden')
-    register = (reverse('userena_signup'), 'Registrieren')
-    profil = lambda nutzer: (reverse('userena_profile_edit', kwargs={'username':nutzer.username}), 'Profil')
-    
-    if user.is_authenticated():
-        liste = [abmelden, profil(user)]
-    else:
-        liste = [anmelden, register]
-    if user.is_staff and user.get_all_permissions():
-        liste.append(admin)
-    
-    return liste
-
-def knoepfe_menü(user):
-    """ gibt Knöpfe für Menüleiste als Liste von Tupeln zurück """
-    alle = {
-        'index': ('/', 'Startseite'), 
-        'db': ('/static/Grundgeruest/db_olymp.pdf', 'Datenbanklayout'), # quick and very dirty :)
-        'todo': ('/todo/', 'ToDo-Liste'),
-        'olymp': ('/olymp/', 'Wettbewerbe'),
-        'impressum': ('/impressum/', 'Impressum'),
-        'randomus': ('/linkus-randomus/', 'linkus randomus'),
-    }
-    
-    if user.username == 'admin':
-        return [alle[name] for name in ('olymp', 'index', 'todo', 'db')]
-    else:
-        return [alle[name] for name in ('olymp', 'db', 'impressum', 'randomus')]
-        
-
-class Nutzer(AbstractUser, MinimalModel):
-    """ Nutzer-Klasse """
-    def knoepfe_kopf(nutzer):
-        """ soll Liste von Paaren für Knöpfe der Kopfleiste ausgeben 
-        Nutzt im Moment die module-fkt gleichen Namens, könnte später vll
-        die Gruppenzugehörigkeit heranziehen, etc, ist flexibel """
-        return knoepfe_kopf(nutzer)
-
-    def knoepfe_menü(self):
-        """ soll Liste von Paaren für Knöpfe der Menüleiste ausgeben 
-        Nutzt im Moment die module-fkt gleichen Namens, könnte später vll
-        die Gruppenzugehörigkeit heranziehen, etc, ist flexibel """
-        return knoepfe_menü(self)
-
-    def save(self, *args, **kwargs):
-        """ setzt bei Bedarf zufälligen Nutzernamen """
-        if not self.username:
-            self.username = ''.join(random.sample(string.ascii_lowercase, 20))
-        super().save(*args, **kwargs)
+        return self.title
 
     class Meta:
-        verbose_name_plural = 'Nutzer'
-        verbose_name = 'Nutzer'
-
-    def __str__(self):
-        return 'Nutzer %s (%s)' % (self.username, self.email)
-
-
-class Profil(UserenaBaseProfile):
-    user = models.OneToOneField(
-        Nutzer,
-        unique=True,
-        verbose_name='Nutzer',
-        related_name='profil',
-    )
-    
-    farbschema_choices = [
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-amber.css', 'Zeus'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-blue.css', 'Poseidon'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-indigo.css', 'Hera'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-brown.css', 'Demeter'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-yellow.css', 'Apollo'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-light-green.css', 'Artemis'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-dark-grey.css', 'Athene'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-red.css', 'Ares'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-pink.css', 'Aphrodite'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-grey.css', 'Hermes'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-orange.css', 'Hephaistos'),
-        ('https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-cyan.css', 'Dionysus')
-    ]
-    
-    farbschema = models.CharField(
-	max_length=255,
-	choices=farbschema_choices,
-	default='https://olymp.piokg.de/static/Grundgeruest/css/w3-theme-dark-grey.css')
-    
-    @property
-    def nutzer(self): # DB-Feld heißt user weil userena's sonst nicht versteht
-        return self.user
-
-    class Meta:
-        verbose_name_plural = 'Profile'
-        verbose_name = 'Nutzerprofil'
+        abstract=True
