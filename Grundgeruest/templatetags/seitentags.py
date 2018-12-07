@@ -1,5 +1,5 @@
 from django import template
-from Grundgeruest.models import Nutzer
+from django.contrib.auth import get_user_model
 
 register = template.Library()
 
@@ -8,14 +8,14 @@ def kopfleiste_knoepfe(user):
     """ Der tag erwartet von der Funktion ein dict, in dem die Liste der
     url-text-Paare für die Knöpfe der Kopfleiste steht """
 
-    return {'knoepfe': Nutzer.knoepfe_kopf(user)}
+    return {'knoepfe': get_user_model().knoepfe_kopf(user)}
 
 @register.inclusion_tag('Grundgeruest/menueleiste_knopf.html')
 def menueleiste_knoepfe(user):
     """ gibt ein dict zurück, in dem die Liste der url-text-Paare für die
     Knöpfe der Menüleiste steht """
 
-    return {'knoepfe': Nutzer.knoepfe_menü(user)}
+    return {'knoepfe': get_user_model().knoepfe_menü(user)}
 
 @register.inclusion_tag('Grundgeruest/listeneintrag.html')
 def listeneintrag(objekt, request, nur_link=False):

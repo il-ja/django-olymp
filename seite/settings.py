@@ -25,7 +25,7 @@ SECRET_KEY = '3=(k20jok_souzhb93h60&t(nd+t3k*!^h6^7=p(qf+fmaf)c6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -38,19 +38,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'Wettbewerbe',
     'Grundgeruest',
+    'Nutzer',
     'Kommentare',
+    'Wettbewerbe',
 
     'django.contrib.admindocs',
     'django_extensions',
     'django.contrib.humanize',
-    'userena',
-    'guardian',
-    'easy_thumbnails',
     'django.contrib.sites',
+    'authtools',
+    'semanticuiforms',
+    'captcha',
     'django_tables2',
-    'martor',
+    'django_markdown',
     'cookielaw',
 ]
 
@@ -96,7 +97,7 @@ DATABASES = {
 }
 
 # Einstellungen für Nutzer und Profile
-AUTH_USER_MODEL = 'Grundgeruest.Nutzer'
+AUTH_USER_MODEL = 'Nutzer.Nutzerzugang'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -118,19 +119,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # von userena verlangt:
 AUTHENTICATION_BACKENDS = (
-    'userena.backends.UserenaAuthenticationBackend',
-    'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-SLUG_NUTZER = 'nutzer/'
-SLUG_ANMELDEN = 'anmelden/'
-SLUG_ABMELDEN = 'abmelden/'
 ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'Grundgeruest.Profil'
 USERENA_WITHOUT_USERNAMES = True
 USERENA_SIGNIN_REDIRECT_URL = '/nutzer/%(username)s/'
-LOGIN_URL = '/' + SLUG_NUTZER + SLUG_ANMELDEN
-LOGOUT_URL = '/' + SLUG_NUTZER + SLUG_ANMELDEN
+LOGIN_URL = '/auth/anmelden/'
+LOGOUT_URL = '/auth/abmelden/'
 SITE_ID = 1
 
 # Für Markdown-support von Martor
@@ -171,6 +167,13 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'iljasseite@gmail.com'
 EMAIL_HOST_PASSWORD = 'ad8F9hnv2Jjsk4Rg5ns'
 DEFAULT_TO_EMAILS = ['ilja1988@gmail.com']
+
+
+RECAPTCHA_PRIVATE_KEY = '6LcZ5X0UAAAAAMyx48vvZUSfTzLMLuKnempPd0mI'
+RECAPTCHA_PUBLIC_KEY = '6LcZ5X0UAAAAAOhbOeSv59HMCwap_zrF4h0CArPJ'
+NOCAPTCHA = True
+DISABLE_CAPTCHA = True
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

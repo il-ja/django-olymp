@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% lorem 1 p %}
+  {% include 'Grundgeruest/separator.html' with text="Eine Email wurde an die von Ihnen angegebene Adresse versandt" %}
+  {% lorem 2 p random %}
+{% endblock %}

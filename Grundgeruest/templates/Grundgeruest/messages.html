@@ -1,0 +1,9 @@
+{% load cookielaw_tags %}
+{% if messages %}
+  <div><p style="text-align: center; width: 100%">
+    {% for message in messages %}
+	  <i>{% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</i><br>
+    {% endfor %}
+  </p></div>
+{% endif %}
+{% if 0 %}{% cookielaw_banner %}{% endif %}
