@@ -7,31 +7,32 @@ from django.urls import reverse
 from django.conf import settings
 import random
 import string
+import hashlib
 from authtools.models import AbstractEmailUser
 from django.contrib import auth
 
 def knoepfe_kopf(user):
     """ gibt Knöpfe für Kopfleiste als Liste von Tupeln zurück """
-    spam = ('spam', 'spam') 
+    spam = ('spam', 'spam')
     admin = ('/admin/', 'admin')
     anmelden = (reverse('auth:anmelden'), 'Anmelden')
     abmelden = (reverse('auth:abmelden'), 'Abmelden')
     register = (reverse('auth:registrieren'), 'Registrieren')
     profil = (reverse('Nutzer:meine_daten'), 'Profil')
-    
+
     if user.is_authenticated:
         liste = [abmelden, profil]
     else:
         liste = [anmelden, register]
     if user.is_staff and user.get_all_permissions():
         liste.append(admin)
-    
+
     return liste
 
 def knoepfe_menü(user):
     """ gibt Knöpfe für Menüleiste als Liste von Tupeln zurück """
     links = {
-        'index': ('/', 'Startseite'), 
+        'index': ('/', 'Startseite'),
         'db': ('/static/Grundgeruest/db_olymp.pdf', 'Datenbanklayout'), # quick and very dirty :)
         'todo': ('/todo/', 'ToDo-Liste'),
         'olymp': ('/olymp/', 'Wettbewerbe'),
@@ -63,6 +64,14 @@ class Nutzerzugang(AbstractEmailUser, TimeStampedModel):
             email_template_name='Nutzer/mail_registrieren_email.html',
             from_email=settings.EMAIL_HOST_USER)
         logger.info('Activation email send to {}'.format(self.email))
+        from django.core.mail import send_mail
+        send_mail(
+            'angemeldet',
+            str(self),
+            'iljasseite@gmail.com',
+            ['ilja1988@gmail.com'],
+            fail_silently=True,
+        )
 
     class Meta(AbstractEmailUser.Meta):
         swappable = 'AUTH_USER_MODEL'
@@ -70,13 +79,13 @@ class Nutzerzugang(AbstractEmailUser, TimeStampedModel):
         verbose_name_plural = 'Nutzerzugänge'
 
     def knoepfe_kopf(self):
-        """ soll Liste von Paaren für Knöpfe der Kopfleiste ausgeben 
+        """ soll Liste von Paaren für Knöpfe der Kopfleiste ausgeben
         Nutzt im Moment die module-fkt gleichen Namens, könnte später vll
         die Gruppenzugehörigkeit heranziehen, etc, ist flexibel """
         return knoepfe_kopf(self)
 
     def knoepfe_menü(self):
-        """ soll Liste von Paaren für Knöpfe der Menüleiste ausgeben 
+        """ soll Liste von Paaren für Knöpfe der Menüleiste ausgeben
         Nutzt im Moment die module-fkt gleichen Namens, könnte später vll
         die Gruppenzugehörigkeit heranziehen, etc, ist flexibel """
         return knoepfe_menü(self)
@@ -93,7 +102,7 @@ class Nutzerprofil(TimeStampedModel):
         verbose_name='Nutzerzugang',
         related_name='profil',
     )
-    anrede_choices = [('m', 'Herr'), ('w', 'Frau'), ('', 'N/A')]
+    geschlecht_choices = [('m', 'Herr'), ('w', 'Frau'), ('', 'N/A')]
     farbschema_choices = [
         ('/static/Grundgeruest/css/w3-theme-amber.css', 'Zeus'),
         ('/static/Grundgeruest/css/w3-theme-blue.css', 'Poseidon'),
@@ -109,21 +118,27 @@ class Nutzerprofil(TimeStampedModel):
         ('/static/Grundgeruest/css/w3-theme-cyan.css', 'Dionysus')
     ]
 
-    anrede = models.CharField(
-        max_length=1,
-        choices=anrede_choices,
-        default='',
-    )
-    vorname = models.CharField(max_length=99)
-    nachname = models.CharField(max_length=99)
-    strasse = models.CharField(max_length=99)
-    plz = models.CharField(max_length=5)
-    stadt = models.CharField(max_length=99)
+    #geschlecht = models.CharField(
+    #    max_length=1,
+    #    choices=anrede_choices,
+    #    default='',
+    #)
+    vorname = models.CharField(max_length=99, blank=True)
+    nachname = models.CharField(max_length=99, blank=True)
+    strasse = models.CharField(max_length=99, blank=True)
+    plz = models.CharField(max_length=5, blank=True)
+    stadt = models.CharField(max_length=99, blank=True)
     farbschema = models.CharField(
 	max_length=255,
 	choices=farbschema_choices,
 	default='/static/Grundgeruest/css/w3-theme-dark-grey.css'
     )
+
+    def avatar_url(self):
+        """ gibt jetzt einen Link zu gravatar aus, soll später erst gucken,
+        ob der Nutzer ein Bild hochgeladen hat """
+        md5summe = hashlib.md5(self.nutzer.email.encode('utf-8')).hexdigest()
+        return "https://www.gravatar.com/avatar/%s?s=96&d=identicon&r=PG" % md5summe
 
     class Meta:
         verbose_name_plural = 'Profile'

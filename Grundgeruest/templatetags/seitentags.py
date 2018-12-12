@@ -36,3 +36,16 @@ def listeneintrag(objekt, request, nur_link=False):
             pk=objekt.pk,
         ),
     }
+
+@register.simple_tag
+def null_ein_viele(anz, null="sind noch keine Teilnahmen",
+    ein="ist nur folgende Teilnahme", viele="sind die folgenden {} Teilnahmen"):
+    """ soll entscheiden, was korrekt ist, siehe die defaultparameter.
+    bekommt dafür die drei Optionen und die relevante Zählvariable """
+    if not anz:
+        return null
+    if anz == 1:
+        return ein
+    if anz > 1:
+        return viele.format(anz)
+
