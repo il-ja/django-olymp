@@ -4,8 +4,6 @@ from django.shortcuts import get_object_or_404
 from . import models
 from django.urls import reverse
 
-from martor.widgets import MartorWidget
-
 class NeuerKommentar(LoginRequiredMixin, CreateView):
     """ Erstellt Kommentar in der durch die url übergebene Liste """
     model = models.Kommentar
@@ -16,7 +14,7 @@ class NeuerKommentar(LoginRequiredMixin, CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         liste = get_object_or_404(models.Liste, pk=self.kwargs.get('pk'))
-        instanz = models.Kommentar(liste=liste, autor=self.request.user.profil)
+        instanz = models.Kommentar(liste=liste, autor=self.request.user)
         kwargs.update([('instance', instanz)])
         return kwargs
 

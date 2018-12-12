@@ -1,7 +1,6 @@
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
 from Grundgeruest.models import Grundklasse
-from martor.models import MartorField
 from django.db.models.base import ModelBase
 from django.contrib.auth import get_user_model
 
@@ -44,7 +43,7 @@ class Kommentar(TimeStampedModel):
         on_delete=models.CASCADE,
         related_name='kommentare',
     )
-    text = MartorField()
+    text = models.TextField()
     autor = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,

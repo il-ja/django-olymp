@@ -10,14 +10,14 @@ def kommentare(liste, nutzer):
     """
     #import ipdb; ipdb.set_trace() 
     alle_kommentare = liste.kommentare.all()
-    if not nutzer.is_authenticated():
+    if not nutzer.is_authenticated:
         liste_paare = [
             (kommentar, False) 
             for kommentar in liste.kommentare.all()
         ]
     else:
         liste_paare = [
-            (kommentar, kommentar in nutzer.profil.kommentare.all()) 
+            (kommentar, kommentar in nutzer.kommentare.all())
             for kommentar in liste.kommentare.all()
         ]
     return {'kommentare': liste_paare}
