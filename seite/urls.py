@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
+import importlib
+
 from Nutzer.urls import auth_urls, profil_urls
 from Grundgeruest import views as grundgeruest
 
@@ -33,5 +35,14 @@ urlpatterns = [
     url(r'^kommentare/', include('Kommentare.urls')),
     url(r'^impressum/$', TemplateView.as_view(template_name="impressum.html"), name='startseite'),
     url(r'^linkus-randomus/$', grundgeruest.RandomusView.as_view(), name='linkus-randomus'),
-    url(r'^$', grundgeruest.IndexView.as_view(), name='startseite'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if importlib.util.find_spec("seite.local_urls") is not None:
+    urlpatterns += [
+        url(r'^', include('seite.local_urls')),
+        url(r'^$', grundgeruest.IndexView.as_view(), name='startseite'),
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    urlpatterns += [
+        url(r'^$', grundgeruest.IndexView.as_view(), name='startseite'),
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

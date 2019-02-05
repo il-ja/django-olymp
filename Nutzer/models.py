@@ -140,6 +140,9 @@ class Nutzerprofil(TimeStampedModel):
         md5summe = hashlib.md5(self.nutzer.email.encode('utf-8')).hexdigest()
         return "https://www.gravatar.com/avatar/%s?s=96&d=identicon&r=PG" % md5summe
 
+    def __str__(self):
+        return "Profil vom " + str(self.nutzer)
+
     class Meta:
         verbose_name_plural = 'Profile'
         verbose_name = 'Nutzerprofil'

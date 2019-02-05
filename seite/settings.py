@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'django.contrib.humanize',
     'django.contrib.sites',
+    'martor',
     'authtools',
     'semanticuiforms',
     'captcha',
