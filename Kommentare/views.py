@@ -36,4 +36,3 @@ class KommentarLoeschen(LoginRequiredMixin, DeleteView):
     def get_success_url(self):
         return self.get_object().get_absolute_url()
 
-
