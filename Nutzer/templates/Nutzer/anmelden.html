@@ -9,5 +9,7 @@
     {% render_form form %}
     <button class="ui basic button" type="submit">Anmelden</button>
   </form>
+  <hr>
+  <a href="{% url 'password_reset' %}">Verdaaamt, Passwort vergessen!</a>
 </div>
 {% endblock %}

@@ -37,13 +37,14 @@ def knoepfe_menü(user):
         'todo': ('/todo/', 'ToDo-Liste'),
         'olymp': ('/olymp/', 'Wettbewerbe'),
         'impressum': ('/impressum/', 'Impressum'),
+        'listen': ('/olymp/listen/', 'Lieblose Listen'),
         'randomus': ('/linkus-randomus/', 'linkus randomus'),
     }
 
     if user.is_superuser:
         return [links[name] for name in ('olymp', 'db', 'todo', 'impressum')]
     else:
-        return [links[name] for name in ('olymp', 'impressum', 'randomus')]
+        return [links[name] for name in ('olymp', 'impressum', 'listen', 'randomus')]
 
 
 class Nutzerzugang(AbstractEmailUser, TimeStampedModel):
@@ -123,7 +124,7 @@ class Nutzerprofil(TimeStampedModel):
     #    choices=anrede_choices,
     #    default='',
     #)
-    vorname = models.CharField(max_length=99, blank=True)
+    vorname = models.CharField(max_length=99, blank=False)
     nachname = models.CharField(max_length=99, blank=True)
     strasse = models.CharField(max_length=99, blank=True)
     plz = models.CharField(max_length=5, blank=True)

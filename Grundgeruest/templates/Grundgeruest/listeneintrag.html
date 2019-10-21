@@ -1,6 +1,10 @@
-{% if not nur_link %}
-  <a href={{ objekt.get_absolute_url }}>{{ objekt.title }}</a>
-{% endif %}
-{% if ob_zeigen %}
-  <a href="{{ admin_link }}" style="color: gray">[admin]</a>
+{% if objekt.listeneintrag and not nur_link %}
+  {{ objekt.listeneintrag | safe }}
+{% else %}
+  {% if not nur_link %}
+    <a href={{ objekt.get_absolute_url }}>{{ objekt.title }}</a>
+  {% endif %}
+  {% if ob_zeigen %}
+    <a href="{{ admin_link }}" style="color: gray">[admin]</a>
+  {% endif %}
 {% endif %}
