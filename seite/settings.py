@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Nutzer',
     'Kommentare',
     'Wettbewerbe',
+    'Adventskalender',
 
     'django.contrib.admindocs',
     'django_extensions',

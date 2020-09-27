@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^olymp/', include('Wettbewerbe.urls')),
     url(r'^martor/', include('martor.urls')),
     url(r'^kommentare/', include('Kommentare.urls')),
+    url(r'^ak/', include('Adventskalender.urls')),
     url(r'^impressum/$', TemplateView.as_view(template_name="impressum.html"), name='startseite'),
     url(r'^linkus-randomus/$', grundgeruest.RandomusView.as_view(), name='linkus-randomus'),
 ]
